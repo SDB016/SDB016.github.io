@@ -1128,45 +1128,80 @@ th {
     background-color: #f4f4f4;
 }
 
-/* 목차 스타일 */
-.toc {
-    background-color: #f8f9fa;
+/* 목차 컨테이너 스타일 */
+.toc-container {
+    background: linear-gradient(to right, #ffffff, #f8f9fa);
     border: 1px solid #ddd;
-    padding: 1em;
-    margin: 1em 0;
-    border-radius: 4px;
-    font-family: Arial, sans-serif;
+    padding: 1rem;
+    margin: 1rem 0;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    font-family: 'Arial', sans-serif;
 }
 
-.toc .toc-list {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-}
-
-.toc .toc-item {
-    margin: 5px 0;
-    padding-left: 10px;
-}
-
-.toc .toc-item.toc-level-1 {
+/* 목차 제목 스타일 */
+.toc-title {
+    font-size: 1.25rem;
     font-weight: bold;
+    color: #333;
+    margin-bottom: 0.5rem;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 0.3rem;
 }
 
-.toc .toc-item.toc-level-2 {
-    padding-left: 20px;
+/* 목차 리스트 스타일 */
+.toc-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
 }
 
-.toc .toc-item.toc-level-3 {
-    padding-left: 30px;
+/* 목차 아이템 스타일 */
+.toc-item {
+    margin: 0.5rem 0;
+    font-size: 0.95rem;
 }
 
-.toc a {
-    text-decoration: none;
+/* 각 레벨의 들여쓰기 */
+.toc-item.toc-level-1 {
+    font-weight: bold;
+    color: #0056b3;
+}
+
+.toc-item.toc-level-2 {
+    padding-left: 15px;
     color: #007bff;
 }
 
+.toc-item.toc-level-3 {
+    padding-left: 30px;
+    color: #17a2b8;
+}
+
+/* 링크 스타일 */
+.toc a {
+    text-decoration: none;
+    color: inherit;
+    transition: color 0.3s ease-in-out;
+}
+
 .toc a:hover {
+    color: #dc3545;
     text-decoration: underline;
-    color: #0056b3;
+}
+
+/* 반응형 조정 */
+@media (max-width: 768px) {
+    .toc-container {
+        padding: 0.75rem;
+        font-size: 0.9rem;
+    }
+
+    .toc-title {
+        font-size: 1rem;
+    }
+
+    .toc-item {
+        font-size: 0.85rem;
+    }
 }
