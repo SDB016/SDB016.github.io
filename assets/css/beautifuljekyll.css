@@ -1130,35 +1130,18 @@ th {
 
 /* 목차 스타일 */
 .toc {
-  padding: 10px;
-  background-color: #f9f9f9;
+  background-color: #f8f9fa;
   border: 1px solid #ddd;
-  border-radius: 5px;
-  list-style: none;
+  padding: 1em;
+  margin: 1em 0;
+  border-radius: 4px;
+}
+
+.toc ul {
+  list-style-type: none;
+  padding-left: 20px;
 }
 
 .toc li {
   margin: 5px 0;
-}
-
-.toc-level-1 {
-  font-weight: bold;
-  margin-left: 0;
-}
-
-.toc-level-2 {
-  margin-left: 20px;
-}
-
-.toc-level-3 {
-  margin-left: 40px;
-}
-
-.toc a {
-  text-decoration: none;
-  color: #007acc;
-}
-
-.toc a:hover {
-  text-decoration: underline;
 }
