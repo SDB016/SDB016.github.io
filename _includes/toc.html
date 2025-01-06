@@ -2,7 +2,9 @@
     {% assign minHeader = include.h_min | default: 1 %}
     {% assign maxHeader = include.h_max | default: 6 %}
     {% assign nodes = include.html | split: '<h' %}
-    {% capture toc %}<ul class="toc-list">{% for node in nodes %}
+    {% capture toc %}<nav class="toc-container">
+    <h2 class="toc-title">Table of Contents</h2>
+    <ul class="toc-list">{% for node in nodes %}
         {% if node == "" %}
             {% continue %}
         {% endif %}
@@ -18,6 +20,7 @@
         <li class="toc-item toc-level-{{ headerLevel }}">
             <a href="#{{ html_id }}">{{ headerText | strip_html }}</a>
         </li>
-    {% endfor %}</ul>{% endcapture %}
+    {% endfor %}</ul>
+    </nav>{% endcapture %}
 {% endcapture %}
 {{ toc | markdownify }}
