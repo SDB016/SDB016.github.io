@@ -1,0 +1,12 @@
+<ul class="toc">
+  {% assign headers = page.content | split: '<h' %}
+  {% for header in headers offset:1 %}
+    {% assign level = header | slice: 0, 1 %} <!-- h 레벨 추출 (1, 2, 3 등) -->
+    {% assign rest = header | split: '>' | last %}
+    {% if level == "1" or level == "2" or level == "3" %}
+      {% assign anchor = rest | split: '</h' | first | strip_html | slugify %}
+      {% assign title = rest | split: '</h' | first | strip_html %}
+      <li class="toc-level-{{ level }}"><a href="#{{ anchor }}">{{ title }}</a></li>
+    {% endif %}
+  {% endfor %}
+</ul>
