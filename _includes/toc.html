@@ -1,13 +1,8 @@
 {% capture tocWorkspace %}
-    {% comment %}
-        Version 1.0.8
-        https://github.com/allejo/jekyll-toc
-    {% endcomment %}
     {% assign minHeader = include.h_min | default: 1 %}
     {% assign maxHeader = include.h_max | default: 6 %}
     {% assign nodes = include.html | split: '<h' %}
-    {% assign firstHeader = true %}
-    {% capture toc %}{% for node in nodes %}
+    {% capture toc %}<ul class="toc-list">{% for node in nodes %}
         {% if node == "" %}
             {% continue %}
         {% endif %}
@@ -19,23 +14,10 @@
         {% assign _idWorkspace = _workspace[0] | split: 'id="' %}
         {% assign _idWorkspace = _idWorkspace[1] | split: '"' %}
         {% assign html_id = _idWorkspace[0] %}
-        {% capture _hAttrToStrip %}{{ _workspace[0] | split: '>' | first }}>{% endcapture %}
-        {% assign header = _workspace[0] | replace: _hAttrToStrip, '' %}
-        {% assign space = '' %}
-        {% for i in (1..headerLevel) %}
-            {% assign space = space | prepend: '    ' %}
-        {% endfor %}
-        {% unless include.item_class == blank %}
-            {% capture listItemClass %}{:.{{ include.item_class | replace: '%level%', headerLevel }}}{% endcapture %}
-        {% endunless %}
-        {{ space }}{{ listItemClass }}- [{{ header | strip_html | escape }}](#{{ html_id }})
-    {% endfor %}{% endcapture %}
-    {% if include.class %}
-        {% capture toc %}{:.{{ include.class }}}
-{{ toc | lstrip }}{% endcapture %}
-    {% endif %}
-    {% if include.id %}
-        {% capture toc %}{: #{{ include.id }}}
-{{ toc | lstrip }}{% endcapture %}
-    {% endif %}
-{% endcapture %}{% assign tocWorkspace = '' %}{{ toc | markdownify }}
+        {% capture headerText %}{{ _workspace[0] | replace: 'id="' | split: '>' | last }}{% endcapture %}
+        <li class="toc-item toc-level-{{ headerLevel }}">
+            <a href="#{{ html_id }}">{{ headerText | strip_html }}</a>
+        </li>
+    {% endfor %}</ul>{% endcapture %}
+{% endcapture %}
+{{ toc | markdownify }}
