@@ -39,6 +39,13 @@ layout: base
         </div>
       {% endif %}
 
+      <!-- 여기부터 목차 추가 -->
+      <div class="post-toc">
+        <h1>목차</h1>
+        {% include toc.html %}
+      </div>
+      <!-- 목차 추가 끝 -->
+
       <article role="main" class="blog-post">
         {{ content }}
       </article>
