@@ -205,7 +205,7 @@ post_search: true
 
 kramdown:
   input: GFM
-  hard_wrap: false
+  hard_wrap: true
   auto_ids: true
   syntax_highlighter: rouge
 
