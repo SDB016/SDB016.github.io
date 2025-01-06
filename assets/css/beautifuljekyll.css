@@ -1094,3 +1094,36 @@ pre {
     display: inline-block;
   }
 }
+
+/* 목록 스타일 */
+ul, ol {
+    margin-left: 20px;
+    padding-left: 20px;
+}
+
+/* 코드 블록 스타일 */
+pre {
+    background-color: #f9f9f9;
+    padding: 10px;
+    border-radius: 5px;
+    overflow-x: auto;
+}
+
+/* 제목 스타일 */
+h1, h2, h3, h4, h5, h6 {
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+/* 표 스타일 */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+th {
+    background-color: #f4f4f4;
+}
