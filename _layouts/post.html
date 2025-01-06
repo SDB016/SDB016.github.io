@@ -39,6 +39,10 @@ layout: base
         </div>
       {% endif %}
 
+      {% if page.toc %}
+        {% include toc.html html=content %}
+      {% endif %}
+
 
       <article role="main" class="blog-post">
         {{ content }}
