@@ -3,7 +3,6 @@
     {% assign maxHeader = include.h_max | default: 6 %}
     {% assign nodes = include.html | split: '<h' %}
     {% capture toc %}<nav class="toc-container">
-    <h2 class="toc-title">Table of Contents</h2>
     <ul class="toc-list">{% for node in nodes %}
         {% if node == "" %}
             {% continue %}
