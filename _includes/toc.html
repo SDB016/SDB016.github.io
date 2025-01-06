@@ -1,14 +1,41 @@
-<ul class="toc">
-  {% assign headers = page.content | split: '<h' %}
-  {% for header in headers offset:1 %}
-    {% assign level = header | slice: 0, 1 %}
-    {% assign rest = header | split: '>' | last %}
-    {% if level == "1" or level == "2" or level == "3" %}
-      {% assign anchor = rest | split: '</h' | first | strip_html | slugify %}
-      {% assign title = rest | split: '</h' | first | strip_html %}
-      
-      <!-- 디버깅 출력 -->
-      <li>레벨: {{ level }} - 제목: {{ title }} - 앵커: {{ anchor }}</li>
+{% capture tocWorkspace %}
+    {% comment %}
+        Version 1.0.8
+        https://github.com/allejo/jekyll-toc
+    {% endcomment %}
+    {% assign minHeader = include.h_min | default: 1 %}
+    {% assign maxHeader = include.h_max | default: 6 %}
+    {% assign nodes = include.html | split: '<h' %}
+    {% assign firstHeader = true %}
+    {% capture toc %}{% for node in nodes %}
+        {% if node == "" %}
+            {% continue %}
+        {% endif %}
+        {% assign headerLevel = node | replace: '"', '' | slice: 0, 1 | times: 1 %}
+        {% if headerLevel < minHeader or headerLevel > maxHeader %}
+            {% continue %}
+        {% endif %}
+        {% assign _workspace = node | split: '</h' %}
+        {% assign _idWorkspace = _workspace[0] | split: 'id="' %}
+        {% assign _idWorkspace = _idWorkspace[1] | split: '"' %}
+        {% assign html_id = _idWorkspace[0] %}
+        {% capture _hAttrToStrip %}{{ _workspace[0] | split: '>' | first }}>{% endcapture %}
+        {% assign header = _workspace[0] | replace: _hAttrToStrip, '' %}
+        {% assign space = '' %}
+        {% for i in (1..headerLevel) %}
+            {% assign space = space | prepend: '    ' %}
+        {% endfor %}
+        {% unless include.item_class == blank %}
+            {% capture listItemClass %}{:.{{ include.item_class | replace: '%level%', headerLevel }}}{% endcapture %}
+        {% endunless %}
+        {{ space }}{{ listItemClass }}- [{{ header | strip_html | escape }}](#{{ html_id }})
+    {% endfor %}{% endcapture %}
+    {% if include.class %}
+        {% capture toc %}{:.{{ include.class }}}
+{{ toc | lstrip }}{% endcapture %}
     {% endif %}
-  {% endfor %}
-</ul>
+    {% if include.id %}
+        {% capture toc %}{: #{{ include.id }}}
+{{ toc | lstrip }}{% endcapture %}
+    {% endif %}
+{% endcapture %}{% assign tocWorkspace = '' %}{{ toc | markdownify }}
