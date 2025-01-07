@@ -1134,7 +1134,21 @@ th {
   top: 2rem;
   height: calc(100vh - 4rem);
   overflow-y: auto;
-  width: 400px;  /* 기본 너비 증가 */
+  width: 350px;
+  padding: 10px;
+}
+
+#toc {
+  font-size: 0.9em;
+}
+
+#toc a {
+  text-decoration: none;
+  color: #333;
+}
+
+#toc a:hover {
+  color: #007bff;
 }
 
 @media (min-width: 992px) {
@@ -1148,5 +1162,7 @@ th {
     width: 500px;  /* 더 큰 화면에서 최대 너비 */
   }
 }
+/* toc sidebar end */
 
-/* toc sidebar */
+
+
