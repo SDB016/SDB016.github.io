@@ -6,7 +6,7 @@ layout: base
 
 <div class="{% if page.full-width %} container-fluid {% else %} container-md {% endif %}">
   <div class="row">
-    <div class="{% if page.full-width %} col {% else %} col-xl-8 offset-xl-2 col-lg-10 offset-lg-1 {% endif %}">
+    <div class="{% if page.full-width %} col-md-9 {% else %} col-xl-7 col-lg-8 col-md-9 {% endif %}">
 
       {% if page.gh-repo %}
         {% assign gh_split =  page.gh-repo | split:'/'  %}
@@ -38,10 +38,12 @@ layout: base
           {% endfor %}
         </div>
       {% endif %}
-
+<!-- 
       {% if page.toc %}
-        {% include toc.html html=content %}
-      {% endif %}
+        <div id="toc">
+          {{ content | toc_only }}
+        </div>
+      {% endif %} -->
 
 
       <article role="main" class="blog-post">
@@ -83,5 +85,17 @@ layout: base
       </ul>
       {% include comments.html %}
     </div>
+    <!-- toc -->
+    {% if page.toc %}
+    <div class="d-none d-md-block col-md-3 {% if page.full-width %}{% else %} offset-xl-1 offset-lg-1 {% endif %}">
+      <div class="toc-sidebar">
+        <div id="toc">
+          {{ content | toc_only }}
+        </div>
+      </div>
+    </div>
+    {% endif %}
+    <!-- toc end -->
+  </div>
   </div>
 </div>

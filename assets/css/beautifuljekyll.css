@@ -1127,3 +1127,26 @@ th, td {
 th {
     background-color: #f4f4f4;
 }
+
+/* toc sidebar */
+.toc-sidebar {
+  position: sticky;
+  top: 2rem;
+  height: calc(100vh - 4rem);
+  overflow-y: auto;
+  width: 400px;  /* 기본 너비 증가 */
+}
+
+@media (min-width: 992px) {
+  .toc-sidebar {
+    width: 450px;  /* 큰 화면에서 더 넓게 */
+  }
+}
+
+@media (min-width: 1200px) {
+  .toc-sidebar {
+    width: 500px;  /* 더 큰 화면에서 최대 너비 */
+  }
+}
+
+/* toc sidebar */

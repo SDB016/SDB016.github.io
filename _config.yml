@@ -219,7 +219,7 @@ defaults:
     values:
       layout: "post"
       comments: true  # add comments to all blog posts
-      social-share: true # add social media sharing buttons to all blog posts
+      social-share: true # add social media sharing buttons to all blog postsㅋ
   -
     scope:
       path: "" # any file that's not a post will be a "page" layout by default
@@ -243,6 +243,10 @@ plugins:
   - jekyll-feed
   - jekyll-seo-tag
   - jekyll-toc
+
+toc:
+  label: "목차"
+  sticky: true
 
 # Beautiful Jekyll / Dean Attali
 # 2fc73a3a967e97599c9763d05e564189
