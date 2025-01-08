@@ -5,40 +5,42 @@ layout: base
 {% include header.html type="post" %}
 
 <div class="{% if page.full-width %} container-fluid {% else %} container-md {% endif %}">
+  <!-- 제목과 GitHub 버튼 등은 전체 너비 사용 -->
+  {% if page.gh-repo %}
+    {% assign gh_split =  page.gh-repo | split:'/'  %}
+    {% assign gh_user =  gh_split[0]  %}
+    {% assign gh_repo =  gh_split[1]  %}
+
+    <div id="header-gh-btns">
+      {% if page.gh-badge.size > 0 %}
+        {% for badge in page.gh-badge %}
+          {% case badge %}
+            {% when 'star'%}
+              <iframe src="https://ghbtns.com/github-btn.html?user={{ gh_user }}&repo={{ gh_repo }}&type=star&count=true" frameborder="0" scrolling="0" width="120px" height="20px"></iframe>
+            {% when 'watch'%}
+              <iframe src="https://ghbtns.com/github-btn.html?user={{ gh_user }}&repo={{ gh_repo }}&type=watch&v=2&count=true" frameborder="0" scrolling="0" width="120px" height="20px"></iframe>
+            {% when 'fork'%}
+              <iframe src="https://ghbtns.com/github-btn.html?user={{ gh_user }}&repo={{ gh_repo }}&type=fork&count=true" frameborder="0" scrolling="0" width="120px" height="20px"></iframe>
+            {% when 'follow'%}
+              <iframe src="https://ghbtns.com/github-btn.html?user={{ gh_user }}&type=follow&count=true" frameborder="0" scrolling="0" width="220px" height="20px"></iframe>
+          {% endcase %}
+        {% endfor %}
+      {% endif %}
+    </div>
+  {% endif %}
+
+  {% if page.before-content %}
+    <div class="before-content">
+      {% for file in page.before-content %}
+        {% include {{ file }} %}
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  <!-- 본문과 목차를 포함하는 row -->
   <div class="row">
-    <div class="{% if page.full-width %} col-md-9 {% else %} col-xl-7 col-lg-8 col-md-9 {% endif %}">
-
-      {% if page.gh-repo %}
-        {% assign gh_split =  page.gh-repo | split:'/'  %}
-        {% assign gh_user =  gh_split[0]  %}
-        {% assign gh_repo =  gh_split[1]  %}
-
-        <div id="header-gh-btns">
-          {% if page.gh-badge.size > 0 %}
-            {% for badge in page.gh-badge %}
-              {% case badge %}
-                {% when 'star'%}
-                  <iframe src="https://ghbtns.com/github-btn.html?user={{ gh_user }}&repo={{ gh_repo }}&type=star&count=true" frameborder="0" scrolling="0" width="120px" height="20px"></iframe>
-                {% when 'watch'%}
-                  <iframe src="https://ghbtns.com/github-btn.html?user={{ gh_user }}&repo={{ gh_repo }}&type=watch&v=2&count=true" frameborder="0" scrolling="0" width="120px" height="20px"></iframe>
-                {% when 'fork'%}
-                  <iframe src="https://ghbtns.com/github-btn.html?user={{ gh_user }}&repo={{ gh_repo }}&type=fork&count=true" frameborder="0" scrolling="0" width="120px" height="20px"></iframe>
-                {% when 'follow'%}
-                  <iframe src="https://ghbtns.com/github-btn.html?user={{ gh_user }}&type=follow&count=true" frameborder="0" scrolling="0" width="220px" height="20px"></iframe>
-              {% endcase %}
-            {% endfor %}
-          {% endif %}
-        </div>
-      {% endif %}
-
-      {% if page.before-content %}
-        <div class="before-content">
-          {% for file in page.before-content %}
-            {% include {{ file }} %}
-          {% endfor %}
-        </div>
-      {% endif %}
-
+    <!-- 본문 영역 -->
+    <div class="{% if page.full-width %} col-xl-9 {% else %} col-xl-9 {% endif %}">
       <article role="main" class="blog-post">
         {{ content }}
       </article>
@@ -78,17 +80,80 @@ layout: base
       </ul>
       {% include comments.html %}
     </div>
-    <!-- toc -->
-    {% if page.toc %}
-    <div class="d-none d-md-block col-md-3 {% if page.full-width %}{% else %} offset-xl-1 offset-lg-1 {% endif %}">
-      <div class="toc-sidebar">
-        <div id="toc">
-          {{ content | toc_only }}
-        </div>
-      </div>
+    
+    <!-- 목차 섹션 -->
+    <div class="d-none d-xl-block col-xl-3">
+      <nav id="toc" class="toc sticky-top">
+        {% include toc.html html=content %}
+      </nav>
     </div>
-    {% endif %}
-    <!-- toc end -->
-  </div>
   </div>
 </div>
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+  // TOC 엘리먼트 가져오기
+  const toc = document.querySelector('.toc');
+  if (!toc) {
+    console.log('TOC element not found');
+    return;
+  }
+
+  // TOC 링크들 가져오기
+  const tocLinks = toc.getElementsByTagName('a');
+  if (!tocLinks.length) {
+    console.log('No TOC links found');
+    return;
+  }
+
+  // 섹션들 수집
+  const sections = Array.from(tocLinks).map(link => {
+    const href = link.getAttribute('href');
+    if (!href) return null;
+    
+    // '#' 제거하고 섹션 찾기
+    const sectionId = href.replace('#', '');
+    const section = document.getElementById(sectionId);
+    
+    if (!section) {
+      console.log(`Section not found for href: ${href}`);
+      return null;
+    }
+    
+    return { link, section };
+  }).filter(Boolean);
+
+  // 스크롤 이벤트 핸들러
+  window.addEventListener('scroll', function() {
+    // const scrollPosition = window.scrollY + (window.innerHeight / 3);  현재 스크롤 위치 (화면 1/3 지점)
+    const scrollPosition = window.scrollY;
+    console.log('Current scroll position:', scrollPosition);
+
+    // 현재 보이는 섹션 찾기
+    const currentSection = sections.find(({ section }) => {
+      const sectionTop = section.offsetTop;
+      const sectionBottom = sectionTop + section.offsetHeight;
+      
+      console.log(`Section ${section.id}: top=${sectionTop}, bottom=${sectionBottom}`);
+      return scrollPosition >= sectionTop && scrollPosition < sectionBottom;
+    });
+
+    // 활성 섹션 표시
+    if (currentSection) {
+      console.log('Active section:', currentSection.section.id);
+      
+      // 모든 링크의 활성 클래스 제거
+      Array.from(tocLinks).forEach(link => link.classList.remove('toc-active'));
+      
+      // 현재 섹션 링크에 활성 클래스 추가
+      currentSection.link.classList.add('toc-active');
+    }
+  });
+
+  // 초기 스크롤 위치에 대한 섹션 확인
+  window.dispatchEvent(new Event('scroll'));
+});
+
+</script>
+  
