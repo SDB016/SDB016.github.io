@@ -7,10 +7,6 @@ toc_sticky: true
 toc_label: "목차"
 toc_icon: "list"
 ---
----
-blog_posting: true
----
-[Garbage Collector](Develop/CS/Garbage%20Collector/Garbage%20Collector.md)
 # GC 란 무엇인가
 GC(Garbage Collector)는 JVM의 Heap 영역에서 동적으로 할당했던 메모리 중 필요 없게된 메모리 객체를 주기적으로 제거하는 프로세스이다.
 자바 뿐만 아니라 파이썬, 자바스크립트, Go 등 다른 프로그래밍 언어에도 GC가 기본적으로 내장되어 있는 경우가 많다.
