@@ -226,8 +226,8 @@ java -XX:+UseG1GC -jar Application.java
 
 ## ZGC
 
-    - Java 15에 release
-    - 대량의 메모리(8MB ~ 16TB)를 low latency로 처리하기 위한 GC
+- Java 15에 release
+- 대량의 메모리(8MB ~ 16TB)를 low latency로 처리하기 위한 GC
 
 # 버전 별 GC의 차이점
 
